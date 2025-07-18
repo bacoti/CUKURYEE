@@ -49,6 +49,10 @@ Route::middleware(['auth', 'verified', 'role:mitra'])->prefix('mitra')->name('mi
     // Profil Mitra
     Route::get('/profile/create', [MitraProfileController::class, 'create'])->name('profile.create');
     Route::post('/profile', [MitraProfileController::class, 'store'])->name('profile.store');
+    // --- TAMBAHKAN DUA BARIS INI ---
+    Route::get('/profile/edit', [MitraProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [MitraProfileController::class, 'update'])->name('profile.update');
+
 
     // Jadwal Mitra
     Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
@@ -65,9 +69,9 @@ Route::middleware(['auth', 'verified', 'role:mitra'])->prefix('mitra')->name('mi
 
 // ===== GRUP RUTE KHUSUS ADMIN =====
 Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/mitra', [MitraManagementController::class, 'index'])->name('mitra.index');
-    Route::patch('/mitra/{mitraProfile}/verify', [MitraManagementController::class, 'verify'])->name('mitra.verify');
-    Route::delete('/mitra/{mitraProfile}', [MitraManagementController::class, 'destroy'])->name('mitra.destroy');
+    Route::get('/mitra', [MitraManagementController::class, 'index'])->name('admin.mitra.index');
+    Route::patch('/mitra/{mitraProfile}/verify', [MitraManagementController::class, 'verify'])->name('admin.mitra.verify');
+    Route::delete('/mitra/{mitraProfile}', [MitraManagementController::class, 'destroy'])->name('admin.mitra.destroy');
 });
 
 

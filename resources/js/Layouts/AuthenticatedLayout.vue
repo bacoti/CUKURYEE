@@ -28,6 +28,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink v-if="$page.props.auth.user.role === 'admin'" :href="route('admin.mitra.index')" :active="route().current('admin.mitra.index')">
                                     Manajemen Mitra
                                 </NavLink>
+                                <NavLink v-if="$page.props.auth.user.role === 'mitra'" :href="route('mitra.profile.edit')" :active="route().current('mitra.profile.*')">
+                                    Profil Barbershop
+                                </NavLink>
                                 <NavLink v-if="$page.props.auth.user.role === 'mitra'" :href="route('mitra.services.index')" :active="route().current('mitra.services.*')">
                                     Layanan
                                 </NavLink>

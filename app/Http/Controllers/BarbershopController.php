@@ -11,14 +11,29 @@ class BarbershopController extends Controller
     /**
      * Menampilkan daftar semua barbershop yang sudah terverifikasi.
      */
-    public function index()
+    public function index(Request $request) // Tambahkan Request $request
     {
-        $barbershops = MitraProfile::where('is_verified', true)
-            ->latest()
-            ->get();
+        $query = MitraProfile::where('is_verified', true);
+
+        // Filter berdasarkan pencarian nama
+        if ($request->has('search')) {
+            $query->where('barbershop_name', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter berdasarkan kota
+        if ($request->has('city') && $request->city !== '') {
+            $query->where('city', $request->city);
+        }
+
+        $barbershops = $query->latest()->get();
+
+        // Ambil semua kota unik untuk filter dropdown
+        $cities = MitraProfile::where('is_verified', true)->select('city')->distinct()->pluck('city');
 
         return Inertia::render('Barbershop/Index', [
             'barbershops' => $barbershops,
+            'cities' => $cities, // Kirim daftar kota
+            'filters' => $request->only(['search', 'city']) // Kirim parameter filter
         ]);
     }
 

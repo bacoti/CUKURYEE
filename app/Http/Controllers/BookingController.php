@@ -131,7 +131,7 @@ class BookingController extends Controller
                 $bookingStart = Carbon::parse($booking->booking_time);
                 $bookingEnd = $bookingStart->copy()->addMinutes($booking->service->duration_minutes);
                 // Cek apakah slot baru tumpang tindih dengan booking yang ada
-                if ($slot < $bookingEnd && $slot->copy()->addMinutes($serviceDuration) > $bookingStart) {
+                if ($slot->between($bookingStart, $bookingEnd->subMinute())) {
                     $isBooked = true;
                     break;
                 }
